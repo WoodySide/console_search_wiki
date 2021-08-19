@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 /**
- *
+ * Generating a request to Wikipedia API using fluent-hc
  */
 @Component
 @Slf4j

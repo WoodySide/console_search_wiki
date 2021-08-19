@@ -13,6 +13,15 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * Receiving a response from Wikipedia API
+ *
+ * Parse the response using Gson
+ *
+ * After user presses 'y'
+ *
+ * and names a file, the text will be saved in this file.
+ */
 @Component
 @Slf4j
 public class WikiResponse {
