@@ -5,18 +5,14 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PreDestroy;
 import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 @Component
 @Slf4j
 public class FileSaver {
-
-    private static RandomAccessFile file;
-
-    private static FileChannel channel;
 
     private static Scanner scanner;
 
@@ -29,20 +25,22 @@ public class FileSaver {
 
         if (respond.equals("y")) {
 
-            System.out.println("Enter file name down below");
+            System.out.println("Enter file name down below:");
 
             String fileName = scanner.nextLine();
 
             try {
+                Path filePath = Paths.get(fileName);
+                if(!Files.exists(filePath) && filePath.getFileName() != null) {
 
-                file = new RandomAccessFile(fileName, "rw");
+                    Files.createFile(filePath);
 
-                channel = file.getChannel();
+                    Files.write(filePath, response.getBytes());
 
-                ByteBuffer byteBuffer = ByteBuffer.wrap(response.getBytes());
-
-                log.info("Saving to file {}", fileName);
-                channel.write(byteBuffer);
+                    log.info("Saving to file {}", filePath.getFileName());
+                } else {
+                    System.out.println("The file with this name already exists, choose another name");
+                }
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -54,7 +52,5 @@ public class FileSaver {
     private void closeResources() throws IOException {
         log.info("Closing resources...");
         scanner.close();
-        file.close();
-        channel.close();
     }
 }

@@ -64,6 +64,8 @@ public class WikiResponse {
 
         result = result.replaceAll("</span>", "");
 
+        result = result.replaceAll("\u00a0", "");
+
         saver.saveToFile(result);
     }
 }
