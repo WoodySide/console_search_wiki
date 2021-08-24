@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 /**
  * Receiving a response from Wikipedia API
@@ -40,7 +41,7 @@ public class WikiResponse {
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("What are you looking for? Type your question down below.");
+        System.out.println("What are you looking for? Please, type your question down below.");
 
         String jsonString = request.generate(scanner.nextLine());
 
@@ -65,6 +66,8 @@ public class WikiResponse {
         result = result.replaceAll("</span>", "");
 
         result = result.replaceAll("\u00a0", "");
+
+        System.out.println(result);
 
         saver.saveToFile(result);
     }
